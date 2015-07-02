@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+  <html>
+    <head>
+      <title>Title</title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+      <link href="themes/remark-dark.css" rel="stylesheet" media="all" type="text/css"/>
+    </head>
+    <body>
+      <textarea id="source">
+title: XQuery02 Les fonctions personnalisées
+description: Atelier outillage XML (langages et logiciels), consortium Cahier 2015, Emmanuel Château, Maud Ingarao
+theme: themes/remark-dark.css
+name: inverse
+layout: true
+class: inverse
+
+---
+name: index
+class: center middle
+
+# XQuery02 Les fonctions personnalisées
+
+## Atelier outillage XML (langages et logiciels)
+
+Consortium cahier | 1er et 2 juin 2015
+
+.footnote[[entrepôt GitHub](https://ahn-ens-lyon/formCahier2015) | [jour1](00-programme.html#jour1) | [jour2](00-programme.html#jour2)]
+
+---
+name: presentation
+layout: false
+class: left
+
+# Les fonctions
+
+Une fonction permet de factoriser du code. Indispensable pour la maintenabilité du code.
+
+## Fonctions prédéfinies
+
+Les [fonctions prédéfinies](http://www.w3schools.com/xpath/xpath_functions.asp) sont communes à Xpath, XSLT, et Xquery. On en a aperçu quelques-unes hier...
+Ce sont des boîtes à outils incluses dans le langage, toutes prêtes pour effectuer des tâches courantes.
+
+Fonctions sur les chaînes de caractères
+```xquery
+  fn:string(@type)
+  fn:substring-after(@ref,"#")
+  fn:upper-case(string)
+  fn:contains(string1, string2)
+```
+
+Fonctions sur les noeuds
+```xquery
+  fn:name()
+  fn:root()
+```
+---
+
+Fonctions sur les séquences d'items
+```xquery
+  fn:distinct-values(item,item,...)
+  fn:empty(item,item,...)
+```
+
+Fonctions sur les valeurs numériques
+```xquery
+  fn:round(3.14)
+```
+
+Fonctions sur les dates,
+```xquery
+  month-from-dateTime(xs:dateTime("2015-07-01T10:30-04:10"))
+```
+
+---
+
+## Bibliothèques de fonctions
+
+### Incontournable : [FunctX XQuery Function Library](http://www.xqueryfunctions.com/)
+```xquery
+functx:substring-after-if-contains(@ref,"#")
+functx:capitalize-first(string)
+```
+
+### On peut écrire ses propres fonctions personnalisées, ses propres bibliothèques !
+
+---
+
+## Déclaration d’une fonction XQuery
+
+```xquery
+  declare function local:confirm(){
+    "Merci Fatiha ! C'est bien enregistré :)"
+  };
+```
+
+
+## Arguments d’une fonction et typage du résultat
+
+```xquery
+  declare function local:confirm($qui){
+    "Merci " || $qui || " ! C'est bien enregistré :)"
+  };
+```
+
+
+
+## Appel d’une fonction
+
+```xquery
+  local:confirm("Lou")
+```
+
+---
+
+## Arguments et résultat de la fonction
+
+### Types : quoi ?
+```xquery
+  declare function local:confirm($qui as xs:string) as xs:string{
+    "Merci " || $qui || " !"
+  };
+```
+
+
+### Occurences : combien ?
+
+```xquery
+  declare function local:accueil($qui as xs:string?) as xs:string{
+      "Merci " || $qui || " ! C'est bien enregistré :)"
+  };
+```
+
+### Quantificateurs
+
+-     aucun exactement un item
+- `?`	zéro ou un item
+- `+`	un ou plusieurs items
+- `*`	n’importe quel nombre d’item (zéro ou plus)
+
+---
+
+## Nom de la fonction
+
+### L'espace de nom
+
+### Le nom : quelques interdits
+
+---
+
+# Documentation
+
+Exemple de fonction xqdoc
+
+```xquery
+  declare namespace xhtml="http://www.w3.org/1999/xhtml";
+
+  (:~
+    : This function generates an XHTML <a>---</a> element,
+    : representing a hyperlink.
+    :
+    : @param $href the URI of the target page, the destination
+    : of the hyperlink
+    : @param $text the user-visible text that is displayed
+    : @return a newly-constructed <a>---</a> element
+    : in the XHTML namespace
+    :)
+
+  declare function local:hyperlink($href as xs:anyURI, $text as xs:string) as element(xhtml:a) {
+ <xhtml:a href="{$href}">{$text}</xhtml:a> };
+
+ local:hyperlink(xs:anyURI("index.html"), "contents")
+```
+
+---
+
+# Modules et bibliothèques de fonctions
+
+Module principal (main module)
+Module de bibliothèque (library modules)
+...
+Extension de fichiers
+
+module namespace m1 = "http://example.org/module1";
+
+import module namespace m1 = "http://example.org/module1";
+
+???
+Application complexe
+Découper votre code en composant
+
+Un module principal peut importer un ou plusieurs module de bibliothèque.
+
+L’importation d’un module vous donne accès aux fonctions déclarées dans ce module ainsi qu’à ses variables globales.
+
+Chaque module de bibliothèque possède son propre namespace.
+
+---
+
+# Exemple de bibliothèque de fonction
+
+http://www.xqueryfunctions.com
+
+```xquery
+  declare namespace functx = "http://www.functx.com";
+  declare function functx:num-descendant-elements
+  ($el as element()) as xs:integer {
+    sum(
+      for $child in $el/*
+      return functx:num-descendant-elements($child) + 1
+      )
+  };
+```
+
+---
+
+## Les opérateurs
+
+- `>`, `<`, `=`, `>=`, `<=` comparaison, égalité
+- `+`, `-`, `*`, `/` addition, soustraction, multiplication, division
+- % modulo [vérifier]
+
+## Booléens
+
+`fn:true()`, `fn:false()`
+`!=`
+eq
+
+## Travailler avec des chaînes
+
+- `xs:data()`
+- `fn:distinct-values()`
+- `fn:string-join()`
+- `fn:starts-with()`
+- `fn:contains()`
+- `fn:concat()`
+
+---
+
+# Les expressions conditionnelles
+
+```xquery
+  if (_condition_)
+  then _expression_
+  else _expression_
+```
+
+---
+
+# Références
+
+- Kay, Michael. "XQuery Functions - User Defined Functions in XQuery." http://www.stylusstudio.com/xquery/xquery_functions.html (accessed June 4, 2014).
+- Kay, Michael. " Blooming FLOWR - An Introduction to the XQuery FLWOR Expression." http://www.stylusstudio.com/xquery_flwor.html (accessed June 4, 2014).
+- Higher-Order Functions, BaseX documentation, http://docs.basex.org/wiki/Higher-Order_Functions
+- Learn XQuery : A list of great articles, blog posts, and books for learning XQuery, https://github.com/joewiz/learnxquery
+- XQuery Wikibooks, https://en.wikibooks.org/wiki/XQuery
+- eXist-Book, https://github.com/eXist-book
+- BaseX Getting Started, http://docs.basex.org/wiki/Getting_Started
+
+---
+
+# Outils
+
+- FunctX XQuery Functions, http://www.xqueryfunctions.com
+- XQuerydoc, https://github.com/xquery/xquerydoc
+- txtquery-tools, https://github.com/RobTrew/txtquery-tools
+- XQJSON, https://github.com/joewiz/xqjson
+- XQuery Power : A list of resources built on or with XQuery, https://github.com/joewiz/xquerypower
+- XQuery-OAuth, https://github.com/joewiz/XQuery-OAuth
+- exist-tei-graphing, https://github.com/ljo/exist-tei-graphing
+- XQdoc, http://xqdoc.org
+
+---
+template: inverse
+class: middle center
+
+# [exercices](ex6-xquery.html)
+
+.footnote[[revenir au début](#index) | [programme](00-programme.html)]
+
+
+    </textarea>
+    <script src="js/remark-0.6.5.min.js" type="text/javascript"></script>
+    <script type="text/javascript">var hljs = remark.highlighter.engine;</script>
+    <script src="remark.language.js" type="text/javascript"></script>
+    <script type="text/javascript">
+    var slideshow = remark.create({
+    highlightStyle: 'monokai',
+    highlightLanguage: 'remark'
+    }) ;
+    </script>
+  </body>
+</html>

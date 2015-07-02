@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+  <html>
+    <head>
+      <title>Title</title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+      <link href="themes/remark-dark.css" rel="stylesheet" media="all" type="text/css"/>
+    </head>
+    <body>
+      <textarea id="source">
+title: 01-XQuery
+description: Atelier SynopsX Cahier 2015, Emmanuel Château, Maud Ingarao
+theme: ../themes/remark-dark.css
+name: inverse
+layout: true
+class: inverse
+
+class: center middle
+01-XQuery et RESTXQ
+.footnote[[entrepôt GitHub](https://ahn-ens-lyon/formCahier2015) | [jour1](00-programme.html#jour1) | [jour2](00-programme.html#jour2)
+
+---
+name: index
+class: center middle
+
+# .red[S]ommaire
+Atelier SynopsX | consortium cahier 2015
+
+---
+name: presentation
+layout: false
+class: left
+
+# RESTXQ
+
+Adam Retter
+
+---
+
+# Le paradigme REST (Representational State Transfer)
+
+### Implémentation de Web Service
+RPC, SOAP, REST
+
+### Representational State Transfer
+- Thèse de Roy Fielding, 2000 http://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm
+- Modèle de programmation pour des systèmes hypemédia distribués
+- Architecture orientée ressource (ressource / URI)
+
+### World Wide Web
+- HTTP
+- URI
+- proxy, etc.
+
+???
+Ces dernières années, le paradigme REST s’est largement imposé dans le développement Web.
+
+Ressource / URI
+
+Une des manières les plus efficaces de travailler avec des données sur le web consiste à traiter toutes les opérations commes des opérations de publication (récupérer un objet dans une collection, insérer un objet dans une collection sur le serveur, poster des objets dans une file, ou des contenus en rapport, effacer un objet d’une collection ou récupérer des métadonnées sur cet objet).
+
+Une telle approche requiert une modification de la manière dont on pense les applications qui sont dès lors beaucoup plus orientées vers les services que vers les objets.
+
+Mais approximativement la manière dont on travaille avec les opérations de bases de données (atomicité de la transaction à maintenir à chaque point dans le workflow). Pas de changement d’état en cours d’opération.
+
+---
+
+# Avantages
+
+- portabilité
+- déclaratif
+- interface REST
+- travail sur le modèle de données
+- possibilité de mise à jour + index
+
+???
+
+Portabilité du code :
+- Basé sur des standards XQuery W3C
+- RESTXQ dans EXPATH
+Pas d’enfermement dans une solution propriétaire
+
+Déclaratif
+- XQuery langage fonctionnel
+- Possibilité de déclarer des fonctions ressources associées à des URI
+
+Avantages de l’interface REST
+- pleinement intégré dans l’architecture du web
+- logique web sémantique
+- interface uniforme
+Productivité
+
+Travail sur le modèle de données
+- au plus proche du modèle de données (côté chercheur)
+- réduire les transformations coûteuses (ex. SGBD-R)
+Peut également travailler avec des données stockées dans d’autre format mais une abstraction XML commune.
+
+Possibilité de mise à jour + index
+- XQuery Update facility
+- index Lucenne, XQuery Full-text
+
+---
+
+# Notion de service
+
+Un service dit RESTful possède les propriétés suivantes :
+- collections de ressources
+- ressources adressables par des URIs
+- focalisation sur la publication web (HTTP, négociation de contenu)
+- généralement asynchrone
+
+???
+La notion de service recouvre des significations différentes selon le contexte. Lorsque l’on évoque un service web, il s’agit plutôt d’une manière de considérer les contenus en mettant l’accent sur le fait qu’ils s’agit de collections de ressources.
+
+La représentation interne des ressources peut très bien être en XML, certains protocoles de service web définissent d’ailleurs des transaction en XML.
+
+**On privilégie actuellement plutôt la seule utilisation de HTTP et la négociation de contenu.**
+
+---
+
+# Notion de ressource
+
+« By design a URI identifies one resource. We do not limit the scope of what might be a resource. The term "resource" is used in a general sense for whatever might be identified by a URI. It is conventional on the hypertext Web to describe Web pages, images, product catalogs, etc. as “resources”. The distinguishing characteristic of these resources is that all of their essential characteristics can be conveyed in a message. We identify this set as “information resources.” »
+
+« Other things, such as cars and dogs (and, if you've printed this document on physical sheets of paper, the artifact that you are holding in your hand), are resources too. They are not information resources, however, because their essence is not information. »
+
+http://www.w3.org/TR/2004/REC-webarch-20041215/#id-resources
+
+???
+
+Une entité abstraite qui possède des propriétés, une structure et une identité. Elle dispose nécessairement d’une adresse dans le système sinon elle n’existe pas. Elle peut, plus ou moins implicitement, disposer d’un schéma.
+
+Une ressource ne peut pas être récupérée directement. On fournit la représentation de l’état de cette ressource à un moment donné dans le système.
+C’est pourquoi on parle de Representational State Transfer = REST.
+
+« By design a URI identifies one resource. We do not limit the scope of what might be a resource. The term "resource" is used in a general sense for whatever might be identified by a URI. It is conventional on the hypertext Web to describe Web pages, images, product catalogs, etc. as “resources”. The distinguishing characteristic of these resources is that all of their essential characteristics can be conveyed in a message. We identify this set as “information resources.”
+
+This document is an example of an information resource. It consists of words and punctuation symbols and graphics and other artifacts that can be encoded, with varying degrees of fidelity, into a sequence of bits. There is nothing about the essential information content of this document that cannot in principle be transfered in a message. In the case of this document, the message payload is the representation of this document.
+
+However, our use of the term resource is intentionally more broad. Other things, such as cars and dogs (and, if you've printed this document on physical sheets of paper, the artifact that you are holding in your hand), are resources too. They are not information resources, however, because their essence is not information. Although it is possible to describe a great many things about a car or a dog in a sequence of bits, the sum of those things will invariably be an approximation of the essential character of the resource.
+
+We define the term “information resource” because we observe that it is useful in discussions of Web technology and may be useful in constructing specifications for facilities built for use on the Web. »
+
+http://www.w3.org/TR/2004/REC-webarch-20041215/#id-resources
+
+---
+
+# Notion de collection
+
+- une liste ou une file de ressources en rapport les unes avec les autres
+- pas nécessairement physique (une vue)
+- adressable = service
+- un objet abstrait
+
+???
+
+Une collection est une liste ou une file de ressources qui sont en rapport les unes avec les autres. Cette collection n’a pas besoin d’exister physiquement, mais elle doit pouvoir être adressable. Aussi lui assigne-t-on une adresse tout comme les items individuels.
+
+L’adresse d’une collection constitue un service REST. De ce point de vue, un service est un point sur le web que l’on peut contacter pour obtenir une ressource.
+
+Lorsque l’on envisage la ressource proprement dit, il s’agit d’un objet abstrait. La représentation donne suffisamment d’information pour réaliser un certain nombre d’opérations nécessaires. Par exemple, pour une collection obtenir les titres, dates, auteurs, ou des informations de catégorisations, etc. On peut donc avoir plusieurs représentations différentes de la même ressource.
+
+Les collections virtuelles, ou les vues sont construites à partir de collections de ressources existantes via XQuery. Elles sont équivalentes à des vues SQL. Du point de vue du client, il n’y a pas de différence entre une collection réelle ou virtuelle.
+
+Une collection peut donc être représentée comme un conteneur qui contient une ou plusieurs entrées. Un format de syndication comme ATOM fournit ce type de représentations. Mais d’autres représentations dans des formats utiles peuvent être adressées, telles qu’en XML, HTML, JSON, SQL, et même PDF.
+
+---
+
+# Notion d’URI
+
+« URI is an agreement about how the Internet community allocates names and associates them with the resources they identify. »
+
+Constraint: URIs Identify a Single Resource
+
+http://www.w3.org/TR/2004/REC-webarch-20041215/#id-resources
+
+???
+
+Assign distinct URIs to distinct resources.
+Since the scope of a URI is global, the resource identified by a URI does not depend on the context in which the URI appears (see also the section about indirect identification (§2.2.3)).
+
+[URI] is an agreement about how the Internet community allocates names and associates them with the resources they identify. URIs are divided into schemes (§2.4) that define, via their scheme specification, the mechanism by which scheme-specific identifiers are associated with resources. For example, the "http" URI scheme ([RFC2616]) uses DNS and TCP-based HTTP servers for the purpose of identifier allocation and resolution. As a result, identifiers such as "http://example.com/somepath#someFrag" often take on meaning through the community experience of performing an HTTP GET request on the identifier and, if given a successful response, interpreting the response as a representation of the identified resource. (See also Fragment Identifiers (§2.6).) Of course, a retrieval action like GET is not the only way to obtain information about a resource. One might also publish a document that purports to define the meaning of a particular URI. These other sources of information may suggest meanings for such identifiers, but it's a local policy decision whether those suggestions should be heeded.
+
+http://www.w3.org/TR/2004/REC-webarch-20041215/#id-resources
+
+---
+
+# HTTP
+
+Le protocole HTTP définit plusieurs manières d’adresser des ressources REST avec les **verbes HTTP** :
+- `Get` récupère une collection ou une ressource
+- `Post` ajoute une ressource à une collection
+- `Put` remplace une ressource existante avec une autre
+- `Delete` retire une ressource d’une collection
+- `Head` rapporte un résumé d’une ressource ou d’une collection
+
+---
+
+# Négociation de contenu
+
+---
+
+# Sources et Bibliographie
+
+- http://www.w3.org/TR/2004/REC-webarch-20041215/#id-resources
+- Retter, Adam. "RESTful XQuery. Standardised XQuery 3.0 Annotations for REST." In XML Prague. 2012. http://www.adamretter.org.uk/papers/restful-xquery_january-2012.pdf.
+- Retter, Adam. Unofficial Draft, September 17, 2012. http://exquery.github.io/exquery/exquery-restxq-specification/restxq-1.0-specification.html (accessed February 18, 2014).
+- Kurt Cagle, Metaphorical Web and XRX, O’Reilly Community, 30 septembre, 2008 http://broadcast.oreilly.com/2008/09/metaphorical-web-and-xrx.html (accessed February 15, 2014).
+- EXPath, http://expath.org
+
+
+
+    </textarea>
+    <script src="js/remark-0.6.5.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+    var hljs = remark.highlighter.engine;</script>
+    <script src="remark.language.js" type="text/javascript"></script>
+    <script type="text/javascript">
+    var slideshow = remark.create({
+    highlightStyle: 'monokai',
+    highlightLanguage: 'remark'
+    }) ;
+    </script>
+  </body>
+</html>

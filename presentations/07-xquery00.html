@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+  <html>
+    <head>
+      <title>Title</title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+      <link href="themes/remark-dark.css" rel="stylesheet" media="all" type="text/css"/>
+    </head>
+    <body>
+      <textarea id="source">
+title: xquery00 Démo
+description: Atelier outillage XML (langages et logiciels), consortium Cahier 2015, Emmanuel Château, Maud Ingarao
+theme: ../themes/remark-dark.css
+name: inverse
+layout: true
+class: inverse
+
+---
+name: index
+class: center middle
+
+# XQuery00 Démo
+
+## Atelier outillage XML (langages et logiciels)
+
+Consortium cahier | 1er et 2 juin 2015
+
+.footnote[[entrepôt GitHub](https://ahn-ens-lyon/formCahier2015) | [jour1](00-programme.html#jour1) | [jour2](00-programme.html#jour2)]
+
+---
+name: presentation
+layout: false
+class: left
+
+# Ouvrir une base de données
+
+# Lister les titres (XPath)
+```xquery
+  db:open('maBase')//*:title
+```
+
+# Compter les titres (fonction XPath)
+```xquery
+  fn:count(db:open('maBase')//*:title)
+```
+
+# Mettre ces titres dans des éléments `<h1>`
+```xquery
+  for $titre in db:open('maBase')//*:title
+  return <h1>{$titre/text()}</h1>
+```
+
+# Créer une fonction ressource pour la liste de titres
+```xquery
+  declare function local:listeTitres(){
+    fn:count(db:open('maBase')//*:title)
+  }
+```
+
+```xquery
+  xquery version "3.0" ;
+  module namespace demo = 'demo' ;
+
+  declare default function namespace 'demo' ;
+
+  (:~
+   : resource function demo
+   :)
+  declare
+    %restxq:path('/demo')
+  function titres() {
+    demo:listeTitres()
+  };
+```
+???
+Possibilité de fournir un argument à la fonction pour sélectionner un corpus en particulier, etc.
+
+---
+
+# Servir du HTML
+
+```xquery
+  xquery version "3.0" ;
+  module namespace demo = 'demo' ;
+  declare default function namespace 'demo' ;
+  (:~
+   : resource function demo
+   :)
+  declare
+    %restxq:path('/demo')
+    %rest:produces('text/html')
+    %output:method('html')
+    %output:html-version('5.0')
+  function titres() {
+    <html lang="fr" xml:lang="fr" xmlns="htpp://www.w3.org/1999/xhtml">
+      <head>
+        <meta charset="utf-8"/>
+        <title>Liste de titres</title>
+      </head>
+      <body>
+        <header class="header">
+          <h1>Liste de titres</h1>
+        </header>
+        <main>{demo:listeTitres()}</main>
+      </body>
+    </html>
+    };
+```
+
+---
+
+# Exemple de réalisation avec BaseX
+
+- Exploration du site
+- Visualisation des données (données hétérogènes)
+- Exposition OAI-PMH
+
+---
+name: last-page
+template: inverse
+class: middle center
+
+## [Allons-y](08-xquery01.html) !
+
+.footnote[[revenir au début](#index) | [programme](00-programme.html)]
+
+    </textarea>
+    <script src="js/remark-0.6.5.min.js" type="text/javascript"></script>
+    <script type="text/javascript">var hljs = remark.highlighter.engine;</script>
+    <script src="remark.language.js" type="text/javascript"></script>
+    <script type="text/javascript">
+var slideshow = remark.create({
+highlightStyle: 'monokai',
+highlightLanguage: 'remark'
+}) ;
+    </script>
+  </body>
+</html>

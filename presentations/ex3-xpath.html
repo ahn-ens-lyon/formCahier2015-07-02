@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+    <html>
+      <head>
+        <title>Title</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <link href="themes/remark-dark.css" rel="stylesheet" media="all" type="text/css"/>
+      </head>
+      <body>
+        <textarea id="source">
+title: ex3 Explorer un document XML-TEI avec XPath
+description: Atelier outillage XML (langages et logiciels), consortium Cahier 2015, Emmanuel Château, Maud Ingarao
+theme: themes/remark-dark.css
+layout: true
+class: inverse
+
+---
+name: index
+class: center middle
+
+# ex3 Explorer un document XML-TEI avec XPath
+
+### Consortium cahier | 1er et 2 juin 2015
+
+.footnote[[entrepôt GitHub](https://ahn-ens-lyon/formCahier2015) | [jour1](00-programme.html#jour1) | [jour2](00-programme.html#jour2)]
+
+---
+
+template: inverse
+
+## Travaux Pratiques n° 1
+
+---
+layout: false
+
+## Explorer le document XML-TEI [exercices/desgodets05.tei.xml](exercices/desgodets05.tei.xml) et déterminez :
+
+- Quel est l’élément racine du fichier XML ?
+
+- Lister les titres de divisions (`<head>` dans `<div>`) ?
+
+- Combien y a-t-il de notes (`<note>`) dans le document ?
+
+- Lister les `<term>` qui commencent par "archi" ?
+
+---
+
+## Explorer le document XML-TEI [exercices/desgodets05.tei.xml](exercices/desgodets05.tei.xml) et déterminez :
+
+- Combien y a-t-il de segments de texte dont la graphie est considérée incorrecte (`<sic>`) ?
+
+- Combien y a-t-il de paragraphes (`<p>`) qui contiennent au moins un tel segment ?
+
+- Quel est le contenu textuel du premier élément de chaque élément `<choice>` ?
+
+- Quel est le nom du premier élément de chaque élément `<choice>` ?
+
+- Dédoublonner ces noms d’éléments.
+
+---
+template: inverse
+
+## Travaux pratiques n° 2
+
+---
+template: inverse
+
+## Sources & Bibliographie
+
+---
+layout: false
+.left-column[
+## Sources & Bibliographie
+]
+
+.right-column[
+#### François Role, *Modélisation et manipulation de documents XML*, Paris : Hermes sciences, 2005.
+#### Elliotte Rusty Harold & W. Scott Means, XML en Concentré, $Manuel de référence rapide*, Paris : O'Reilly, 2005.
+#### Michael Kay, XSLT 2.0 and XPath 2.0 Programmer's Reference, 4th ed, Wrox.
+
+#### [http://xpathr.com/](http://xpathr.com/)
+#### [Microsoft Developer Network Reference XPath](http://msdn.microsoft.com/fr-fr/library/ms256115%28VS.80%29.aspx)
+]
+---
+layout: false
+.left-column[
+## Standards
+]
+
+.right-column[
+#### [XML Path Language (XPath) 2.0](http://www.w3.org/TR/xpath20/)
+#### [XQuery 1.0 and XPath 2.0 Data Model (XDM)](http://www.w3.org/TR/xpath-datamodel/)
+#### [XML Schema Part 2: Datatypes Second Edition](http://www.w3.org/TR/xmlschema-2/)
+]
+---
+name: last-page
+template: inverse
+class: middle center
+
+# [XSLT01](05-xslt01.html)
+
+.footnote[[revenir au début](#index) | [programme](00-programme.html)]
+
+</textarea>
+<!--<script src="http://gnab.github.com/remark/downloads/remark-0.6.5.min.js" type="text/javascript"></script>-->
+    <script src="js/remark-0.6.5.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+  var hljs = remark.highlighter.engine;
+</script>
+<script src="remark.language.js" type="text/javascript"></script>
+<script type="text/javascript">
+  var slideshow = remark.create({
+      highlightStyle: 'monokai',
+      highlightLanguage: 'remark'
+    }) ;
+</script>
+
+</body>
+</html>
