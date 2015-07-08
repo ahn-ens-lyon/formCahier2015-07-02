@@ -1,6 +1,6 @@
-# formCahier2015-07-01
+# formCahier2015-07-02
 
-Répertoire du premier jour de la formation de l’Atelier Cahier des 1er et 2 juillet 2015.
+Répertoire du deuxième jour de la formation de l’Atelier Cahier des 1er et 2 juillet 2015.
 Maud Ingarao, Emmanuel Château
 
 ## Organisation du répertoire

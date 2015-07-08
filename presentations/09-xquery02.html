@@ -22,7 +22,7 @@ class: center middle
 
 ## Atelier outillage XML (langages et logiciels)
 
-Consortium cahier | 1er et 2 juin 2015
+Consortium cahier | 1er et 2 juillet 2015
 
 .footnote[[entrepôt GitHub](https://ahn-ens-lyon/formCahier2015) | [jour1](00-programme.html#jour1) | [jour2](00-programme.html#jour2)]
 
@@ -124,12 +124,6 @@ functx:capitalize-first(string)
 
 ### Occurences : combien ?
 
-```xquery
-  declare function local:accueil($qui as xs:string?) as xs:string{
-      "Merci " || $qui || " ! C'est bien enregistré :)"
-  };
-```
-
 ### Quantificateurs
 
 -     aucun exactement un item
@@ -137,13 +131,29 @@ functx:capitalize-first(string)
 - `+`	un ou plusieurs items
 - `*`	n’importe quel nombre d’item (zéro ou plus)
 
+
+```xquery
+  declare function local:accueil($qui as xs:string?) as xs:string{
+      "Merci " || $qui || " ! C'est bien enregistré :)"
+  };
+```
+
+
 ---
 
 ## Nom de la fonction
 
+espace de nom :  nom local
+
 ### L'espace de nom
 
+- XML : xml - http://www.w3.org/XML/1998/namespace 
+- Types de données : xs - http://www.w3.org/2001/XMLSchema 
+- fonctions prédéfinies : fn - http://www.w3.org/2005/xpath-functions  
+- fonctions locales de l'utilisateur : local - http://www.w3.org/2005/xquery-local-functions  
+
 ### Le nom : quelques interdits
+
 
 ---
 

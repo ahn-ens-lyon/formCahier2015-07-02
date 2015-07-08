@@ -20,7 +20,7 @@ class: center middle
 
 # XQuery01, Une Introduction
 
-### Consortium cahier | 1er et 2 juin 2015
+### Consortium cahier | 1er et 2 juillet 2015
 
 .footnote[[entrepôt GitHub](https://ahn-ens-lyon/formCahier2015) | [jour1](00-programme.html#jour1) | [jour2](00-programme.html#jour2)]
 
@@ -55,7 +55,7 @@ Comme XSLT, XQuery utilise XPath comme langage inclus (XQuery est un langage hô
 ### .red[requêter] des données stockées en XML
 ### .red[manipuler] des fichiers
 ### .red[transporter] des messages entre applications
-### rendre du XML en HTMl ou dans un autre format
+### rendre du XML en HTML ou dans un autre format
 
 ???
 XQuery a d’abord été conçu comme un langage pour requêter des données stockées en XML. Son principal rôle intervient donc avec les bases de données XML qu’il s’agisse de bases de données nativement XML ou bien de XML stockées dans des bases de données relationnelles.
@@ -104,7 +104,7 @@ http://basex.org/products/download/all-downloads/
 ???
 Pour les exercices qui vont suivre, nous allons utiliser la base de données XML native BaseX. Des bases de données comme BaseX fonctionne en stockant les fichiers XML bruts dans des index persistants.
 
-Ces index permettent de retrouver facilement et rapidement la localisation d’un élément d’information. Lorsque l’on charge un document dans la base, le fichier et parsé et l’ensemble du document est indexé. Ainsi, pour l’évaluation de n’importe quelle expression XPath, le document n’est analysé qu’une fois ce qui accélère les requêtes.
+Ces index permettent de retrouver facilement et rapidement la localisation d’un élément d’information. Lorsque l’on charge un document dans la base, le fichier est parsé et l’ensemble du document est indexé. Ainsi, pour l’évaluation de n’importe quelle expression XPath, le document n’est analysé qu’une fois ce qui accélère les requêtes.
 
 ---
 
@@ -169,7 +169,7 @@ Ce qui implique que les expressions qui sont essentiellement employées pour sé
 # Accéder à des données XML
 
 Chemin du document que nous allons utiliser :
-`exemples/document.xml`
+`xml/desgodetsBiblioSample.tei.xml`
 
 `fn:doc()` retourne le nœud document de la ressource à l’URI spécifiée
 
@@ -223,13 +223,13 @@ XQuery utilise XPath pour naviguer dans des documents.
 
 À la manière de SQL, le langage XQuery définit un certain nombre de clauses qui permettent de définir des expressions.
 
-- La clause `let` permet l’affectation d’une variable
-- La clause `for` permet d’itérer sur une séquence, elle établit une variable qui est successivement affecté à chaque item de la séquence
+- La clause `let` permet l’affectation d’une valeur à une variable
+- La clause `for` permet d’itérer sur une séquence, elle crée une variable a laquelle est successivement affectée la valeur de chaque item de la séquence
 - La clause `where` permet de définir un filtre analogue aux prédicats
 - La clause (optionnelle) `order by` permet de spécifier un tri
 - La clause `return` génère la sortie
 
-Le nom FLOWR correspond aux 5 clauses utilisées pour produire une expression. La plus grande partie d’entre elles sont optionnelles. Seule la clause `return` est obligatoire, toutefois elle doit être au moins précédée ou bien par une clause `let` ou bien par une clause `for`.
+Le nom FLOWR correspond aux 5 clauses utilisées pour produire une expression. La plus grande partie d’entre elles sont optionnelles. Seule la clause `return` est obligatoire, sauf quand elle n'est précédée d'aucune clause `let` ou `for`.
 
 ---
 
